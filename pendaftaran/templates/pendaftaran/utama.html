@@ -1,0 +1,7 @@
+{% if user.is_authenticated %}
+    {% include "pendaftaran/home.html" %}
+{% else %}
+    <script>
+        window.location.href = "{% url 'login' %}";
+    </script>
+{% endif %}

@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PPDB 2024/2025 - SMA Nusantara Jaya</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.2/font/bootstrap-icons.min.css">
+    <!-- Google Fonts: Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #0056b3;
+            --secondary-color: #6c757d;
+            --accent-color: #ffc107;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* --- Navbar --- */
+        .navbar {
+            transition: all 0.3s ease-in-out;
+            background-color: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            color: var(--primary-color) !important;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 500;
+            margin-left: 15px;
+            color: #333 !important;
+            transition: color 0.3s;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+
+        /* --- Hero Section --- */
+        .hero-section {
+            background: linear-gradient(rgba(0, 86, 179, 0.7), rgba(0, 86, 179, 0.7)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 150px 0;
+            text-align: center;
+        }
+
+        .hero-section h1 {
+            font-weight: 700;
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero-section .lead {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .btn-hero {
+            padding: 12px 35px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .btn-daftar {
+            background-color: var(--accent-color);
+            border-color: var(--accent-color);
+            color: #333;
+        }
+
+        .btn-daftar:hover {
+            background-color: #e0a800;
+            border-color: #e0a800;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .btn-login {
+            background-color: transparent;
+            border-color: white;
+            color: white;
+        }
+
+        .btn-login:hover {
+            background-color: white;
+            color: var(--primary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        /* --- Informasi Section --- */
+        .info-section {
+            padding: 80px 0;
+        }
+
+        .info-section .section-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 50px;
+            position: relative;
+            text-align: center;
+        }
+
+        .info-section .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .info-card {
+            background: white;
+            border: none;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .info-card .icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+        }
+
+        .info-card h5 {
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        /* --- Timeline Section --- */
+        .timeline-section {
+            background-color: var(--light-bg);
+            padding: 80px 0;
+        }
+
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 100%;
+            background: var(--primary-color);
+        }
+
+        .timeline-item {
+            margin-bottom: 50px;
+            position: relative;
+            width: 100%;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            width: 45%;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-item:nth-child(odd) .timeline-content {
+            margin-left: auto;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+        }
+
+        .timeline-dot {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: var(--accent-color);
+            border: 4px solid white;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .timeline-content h5 {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        /* --- FAQ Section --- */
+        .faq-section {
+            padding: 80px 0;
+        }
+        
+        .accordion-button:not(.collapsed) {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .accordion-button:focus {
+            box-shadow: none;
+            border-color: rgba(0,0,0,.125);
+        }
+
+        /* --- Footer --- */
+        footer {
+            background-color: #222;
+            color: #aaa;
+            padding: 50px 0 20px;
+        }
+
+        footer h5 {
+            color: white;
+            font-weight: 600;
+            margin-bottom: 25px;
+        }
+
+        footer a {
+            color: #aaa;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        footer a:hover {
+            color: var(--accent-color);
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            margin-top: 30px;
+            padding-top: 20px;
+            text-align: center;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 768px) {
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .timeline::before {
+                left: 30px;
+            }
+            .timeline-item .timeline-content,
+            .timeline-item:nth-child(odd) .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+            .timeline-dot {
+                left: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="bi bi-mortarboard-fill"></i> SMA Nusantara Jaya
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#informasi">Informasi</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#tata-cara">Tata Cara</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#faq">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#kontak">Kontak</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero-section">
+        <div class="container">
+            <h1>Penerimaan Peserta Didik Baru</h1>
+            <p class="lead">Tahun Ajaran 2024/2025</p>
+            <p>Bergabunglah bersama kami untuk meraih masa depan yang gemilang</p>
+            <a href="/pendaftaran/" class="btn btn-hero btn-daftar me-3"><i class="bi bi-pencil-square"></i> Daftar Sekarang</a>
+            <a href="/pendaftaran/login" class="btn btn-hero btn-login"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+        </div>
+    </header>
+
+    <!-- Informasi Section -->
+    <section id="informasi" class="info-section">
+        <div class="container">
+            <h2 class="section-title">Informasi Penting</h2>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="icon"><i class="bi bi-calendar-event"></i></div>
+                        <h5>Jadwal Pendaftaran</h5>
+                        <p>Pendaftaran dibuka mulai 1 Juni - 30 Juni 2024. Segera siapkan dokumen Anda!</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="icon"><i class="bi bi-list-check"></i></div>
+                        <h5>Persyaratan</h5>
+                        <p>Persiapkan dokumen seperti rapor, akta kelahiran, dan kartu keluarga. Lihat detail selengkapnya.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="info-card">
+                        <div class="icon"><i class="bi bi-telephone"></i></div>
+                        <h5>Hubungi Kami</h5>
+                        <p>Butuh bantuan? Tim kami siap menjawab pertanyaan Anda melalui email atau telepon.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="tata-cara" class="timeline-section">
+        <div class="container">
+            <h2 class="section-title">Tata Cara Pendaftaran</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h5>1. Buat Akun</h5>
+                        <p>Daftarkan diri Anda untuk mendapatkan akun pendaftaran. Gunakan email yang aktif.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h5>2. Isi Formulir</h5>
+                        <p>Login dan lengkapi semua data pribadi dan data orang tua pada formulir yang tersedia.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h5>3. Upload Dokumen</h5>
+                        <p>Unggah semua dokumen persyaratan yang telah discan dengan format dan ukuran yang ditentukan.</p>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <h5>4. Verifikasi & Cetak</h5>
+                        <p>Periksa kembali data Anda, lalu submit. Cetak bukti pendaftaran untuk disimpan.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section id="faq" class="faq-section">
+        <div class="container">
+            <h2 class="section-title">Pertanyaan yang Sering Diajukan (FAQ)</h2>
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="accordion" id="faqAccordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+                                    Apa saja dokumen yang diperlukan untuk pendaftaran?
+                                </button>
+                            </h2>
+                            <div id="faq1" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Dokumen yang diperlukan meliputi: Akta Kelahiran, Kartu Keluarga, Rapor semester 1-5 (untuk SMP), Surat Keterangan Berkelakuan Baik, dan Pas foto terbaru.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+                                    Bagaimana cara mengubah data yang sudah terkirim?
+                                </button>
+                            </h2>
+                            <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Data yang sudah disubmit tidak dapat diubah secara langsung. Anda harus menghubungi panitia PPDB melalui email atau nomor telepon yang tersedia untuk meminta bantuan perubahan data.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+                                    Kapan pengumuman hasil seleksi?
+                                </button>
+                            </h2>
+                            <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                <div class="accordion-body">
+                                    Pengumuman hasil seleksi akan diumumkan secara online pada tanggal 15 Juli 2024 melalui website PPDB dan papan pengumuman di sekolah.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="kontak">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <h5>SMA Nusantara Jaya</h5>
+                    <p>Mendidik generasi penerus yang cerdas, berkarakter, dan berdaya saing global.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="bi bi-facebook"></i></a>
+                        <a href="#"><i class="bi bi-instagram"></i></a>
+                        <a href="#"><i class="bi bi-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <h5>Link Cepat</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#">Website Utama Sekolah</a></li>
+                        <li><a href="#">E-Learning</a></li>
+                        <li><a href="#">Alumni</a></li>
+                        <li><a href="#">Karir</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4">
+                    <h5>Kontak Kami</h5>
+                    <p><i class="bi bi-geo-alt-fill"></i> Jl. Pendidikan No. 123, Jakarta</p>
+                    <p><i class="bi bi-telephone-fill"></i> (021) 1234-5678</p>
+                    <p><i class="bi bi-envelope-fill"></i> info@smanusantarajaya.sch.id</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 PPDB SMA Nusantara Jaya. All Rights Reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap 5 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

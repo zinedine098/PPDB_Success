@@ -8,7 +8,7 @@ from .forms import UserRegisterForm, BiodataPesertaForm
 from django.contrib.auth.decorators import login_required
 from .forms import BerkasSiswaForm
 from .models import BerkasSiswa, BiodataPeserta
-
+@never_cache
 def register(request):
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
@@ -35,7 +35,7 @@ def register(request):
     return render(request, 'pendaftaran/register.html', context)
 
 # pendaftaran/views.py
-
+@never_cache
 def login_user(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -50,6 +50,7 @@ def login_user(request):
         form = AuthenticationForm()
     return render(request, "pendaftaran/login.html", {"form": form})
 
+@never_cache
 def logout_user(request):
     logout(request)
     return redirect("login")
@@ -91,7 +92,7 @@ def home(request):
     
     # Render template dengan context yang sudah disiapkan
     return render(request, "pendaftaran/home.html", context)
-
+@never_cache
 @login_required
 def upload_berkas(request):
     """
@@ -129,7 +130,7 @@ def upload_berkas(request):
 
     # Render template dengan form
     return render(request, 'pendaftaran/berkas.html', {'form': form})
-
+@never_cache
 def sukses_upload(request):
     """
     View sederhana untuk menampilkan halaman sukses.

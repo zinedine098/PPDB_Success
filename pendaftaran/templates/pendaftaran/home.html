@@ -1,3 +1,119 @@
 <!-- pendaftaran/templates/pendaftaran/home.html -->
-<h1>ini adalah halaman utama</h1>
-<a href="{% url 'logout' %}">Logout</a>
+
+{% extends "pendaftaran/base.html" %} <!-- Asumsikan Anda punya template dasar -->
+
+{% block title %}Halaman Utama{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Selamat Datang, {{ biodata.nama_lengkap }}!</h1>
+    <a href="{% url 'logout' %}" class="btn btn-danger">Logout</a>
+    <p>Ini adalah halaman utama Anda. Berikut adalah data yang Anda telah masukkan:</p>
+    <hr>
+    
+    <!-- Menampilkan Data Biodata -->
+    <h2>Data Biodata</h2>
+    {% if biodata %}
+    <table class="table table-bordered">
+        <tbody>
+            <tr>
+                <th>Nama Lengkap</th>
+                <td>{{ biodata.nama_lengkap }}</td>
+            </tr>
+            <tr>
+                <th>NIK</th>
+                <td>{{ biodata.nik }}</td>
+            </tr>
+            <tr>
+                <th>Nomor KK</th>
+                <td>{{ biodata.nomor_kk }}</td>
+            </tr>
+            <tr>
+                <th>Jenis Kelamin</th>
+                <td>{{ biodata.jenis_kelamin }}</td>
+            </tr>
+            <tr>
+                <th>Tempat, Tanggal Lahir</th>
+                <td>{{ biodata.tempat_lahir }}, {{ biodata.tanggal_lahir|date:"d F Y" }}</td>
+            </tr>
+            <tr>
+                <th>Alamat</th>
+                <td>{{ biodata.jalan }}, Kec. {{ biodata.kecamatan }}, {{ biodata.kabupaten }}, {{ biodata.provinsi }}, {{ biodata.negara }} {{ biodata.kode_pos }}</td>
+            </tr>
+            <tr>
+                <th>Pendidikan Terakhir</th>
+                <td>{{ biodata.pendidikan_terakhir }}</td>
+            </tr>
+            <tr>
+                <th>Jurusan yang Dipilih</th>
+                <td>{{ biodata.jurusan }}</td>
+            </tr>
+            <tr>
+                <th>Ukuran Seragam</th>
+                <td>{{ biodata.ukuran_seragam }}</td>
+            </tr>
+        </tbody>
+    </table>
+    {% else %}
+    <div class="alert alert-warning" role="alert">
+        Data biodata Anda belum lengkap. Silakan lengkapi data Anda <a href="#">di sini</a>.
+        </div>
+        {% endif %}
+        
+        <hr>
+        
+        <!-- Menampilkan Data Berkas -->
+        <h2>Data Berkas</h2>
+        {% if berkas %}
+        <p>Berkas-berkas yang telah Anda unggah:</p>
+        <div class="row">
+            <div class="col-md-4">
+                <h5>Foto Profil</h5>
+                <img src="{{ berkas.foto_profile.url }}" alt="Foto Profil" class="img-fluid img-thumbnail">
+            </div>
+            <div class="col-md-4">
+                <h5>Surat Keterangan Lulus</h5>
+                <a href="{{ berkas.surat_keterangan_lulus.url }}" target="_blank">
+                    <img src="{{ berkas.surat_keterangan_lulus.url }}" alt="Surat Keterangan Lulus" class="img-fluid img-thumbnail">
+                </a>
+            </div>
+            <div class="col-md-4">
+                <h5>Ijazah</h5>
+                <a href="{{ berkas.ijazah.url }}" target="_blank">
+                    <img src="{{ berkas.ijazah.url }}" alt="Ijazah" class="img-fluid img-thumbnail">
+                </a>
+            </div>
+            <!-- Tambahkan berkas lainnya dengan cara yang sama -->
+            <div class="col-md-4 mt-3">
+                <h5>KTP Ayah</h5>
+                <a href="{{ berkas.ktp_orang_tua_lk.url }}" target="_blank">
+                    <img src="{{ berkas.ktp_orang_tua_lk.url }}" alt="KTP Ayah" class="img-fluid img-thumbnail">
+                </a>
+            </div>
+            <div class="col-md-4 mt-3">
+                <h5>KTP Ibu</h5>
+                <a href="{{ berkas.ktp_orang_tua_pr.url }}" target="_blank">
+                    <img src="{{ berkas.ktp_orang_tua_pr.url }}" alt="KTP Ibu" class="img-fluid img-thumbnail">
+                </a>
+            </div>
+            <div class="col-md-4 mt-3">
+                <h5>Foto Kartu Keluarga</h5>
+                <a href="{{ berkas.foto_kk.url }}" target="_blank">
+                    <img src="{{ berkas.foto_kk.url }}" alt="Foto KK" class="img-fluid img-thumbnail">
+                </a>
+            </div>
+            <div class="col-md-4 mt-3">
+                <h5>Foto Akte Kelahiran</h5>
+                <a href="{{ berkas.foto_akte_kelahiran.url }}" target="_blank">
+                    <img src="{{ berkas.foto_akte_kelahiran.url }}" alt="Akte Kelahiran" class="img-fluid img-thumbnail">
+                </a>
+            </div>
+        </div>
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+            Anda belum mengunggah berkas apa pun. Silakan unggah berkas Anda <a href="#">di sini</a>.
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}

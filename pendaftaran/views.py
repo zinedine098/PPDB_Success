@@ -55,23 +55,109 @@ def logout_user(request):
     return redirect("login")
 
 
+# @login_required
+# @never_cache
+# def home(request):
+#     return render(request, "pendaftaran/home.html")
+
+# pendaftaran/views.py
+
+from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.cache import never_cache
+from .models import BiodataPeserta, BerkasSiswa  # <-- Tambahkan import ini
+
 @login_required
 @never_cache
 def home(request):
-    return render(request, "pendaftaran/home.html")
+    # Ambil objek user yang sedang login
+    user = request.user
+    
+    # Inisialisasi variabel biodata dan berkas menjadi None
+    # Ini untuk mencegah error jika data belum ada
+    biodata = None
+    berkas = None
+    
+    # Coba ambil data BiodataPeserta yang terkait dengan user
+    try:
+        # Django secara otomatis membuat relasi terbalik.
+        # Nama relasinya adalah nama model (lowercase), yaitu 'biodatapeserta'
+        biodata = user.biodatapeserta
+    except BiodataPeserta.DoesNotExist:
+        # Jika data tidak ditemukan, biarkan variabel biodata tetap None
+        pass
+
+    # Coba ambil data BerkasSiswa yang terkait dengan user
+    try:
+        # Karena di model BerkasSiswa kita menggunakan related_name='berkas_siswa',
+        # kita bisa mengaksesnya dengan nama tersebut.
+        berkas = user.berkas_siswa
+    except BerkasSiswa.DoesNotExist:
+        # Jika data tidak ditemukan, biarkan variabel berkas tetap None
+        pass
+
+    # Siapkan context untuk dikirim ke template
+    context = {
+        'biodata': biodata,
+        'berkas': berkas,
+    }
+    
+    # Render template dengan context yang sudah disiapkan
+    return render(request, "pendaftaran/home.html", context)
+
+# @login_required
+# def upload_berkas(request):
+#     """
+#     View untuk menampilkan dan memproses form pengunggahan berkas siswa.
+#     Hanya pengguna yang login yang dapat mengakses halaman ini.
+#     """
+#     # Cek apakah pengguna sudah memiliki objek BerkasSiswa
+#     try:
+#         berkas_instance = request.user.berkas_siswa
+#     except BerkasSiswa.DoesNotExist:
+#         berkas_instance = None
+
+#     if request.method == 'POST':
+#         # Jika form disubmit, proses data POST dan FILES
+#         form = BerkasSiswaForm(request.POST, request.FILES, instance=berkas_instance)
+#         if form.is_valid():
+#             # Simpan objek form, tapi jangan commit ke database dulu
+#             berkas_obj = form.save(commit=False)
+#             # Hubungkan dengan user yang sedang login
+#             berkas_obj.user = request.user
+#             # Sekarang, simpan ke database
+#             berkas_obj.save()
+#             # Redirect ke halaman sukses atau halaman lain
+#             return redirect('sukses_upload') # Ganti dengan nama URL sukses Anda
+#     else:
+#         # Jika adalah request GET, tampilkan form kosong atau form dengan data yang sudah ada
+#         form = BerkasSiswaForm(instance=berkas_instance)
+
+#     # Render template dengan form
+#     return render(request, 'pendaftaran/berkas.html', {'form': form})
+
+from django.shortcuts import render, redirect
+# ... import lainnya yang diperlukan, seperti login_required, BerkasSiswaForm, dll.
 
 @login_required
 def upload_berkas(request):
     """
     View untuk menampilkan dan memproses form pengunggahan berkas siswa.
     Hanya pengguna yang login yang dapat mengakses halaman ini.
+    Jika pengguna sudah pernah mengunggah berkas, mereka akan diarahkan ke halaman 'home'.
     """
     # Cek apakah pengguna sudah memiliki objek BerkasSiswa
     try:
+        # Jika objek ditemukan, artinya user sudah pernah upload
         berkas_instance = request.user.berkas_siswa
+        # Langsung arahkan ke halaman 'home'
+        return redirect('home')
     except BerkasSiswa.DoesNotExist:
+        # Jika objek tidak ditemukan, biarkan berkas_instance tetap None
+        # dan lanjutkan untuk menampilkan form.
         berkas_instance = None
 
+    # Kode di bawah ini hanya akan dijalankan jika user BELUM pernah upload
     if request.method == 'POST':
         # Jika form disubmit, proses data POST dan FILES
         form = BerkasSiswaForm(request.POST, request.FILES, instance=berkas_instance)
@@ -85,11 +171,12 @@ def upload_berkas(request):
             # Redirect ke halaman sukses atau halaman lain
             return redirect('sukses_upload') # Ganti dengan nama URL sukses Anda
     else:
-        # Jika adalah request GET, tampilkan form kosong atau form dengan data yang sudah ada
+        # Jika adalah request GET, tampilkan form kosong
         form = BerkasSiswaForm(instance=berkas_instance)
 
     # Render template dengan form
     return render(request, 'pendaftaran/berkas.html', {'form': form})
+
 
 def sukses_upload(request):
     """

@@ -132,6 +132,18 @@
                                 <th>Ukuran Seragam</th>
                                 <td>{{ biodata.ukuran_seragam }}</td>
                             </tr>
+                            <tr>
+                                <th>Aksi</th>
+                                <td>
+                                {% if biodata.status == 'menunggu' %}
+                                    <div class="btn btn-warning">{{ biodata.status }}</div>
+                                {% elif  biodata.status == 'lulus'%}
+                                    <div class="btn btn-success">{{ biodata.status }}</div>
+                                {% else %}
+                                    <div class="btn btn-danger">{{ biodata.status }}</div>
+                                {% endif %}
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>

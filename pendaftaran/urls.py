@@ -10,4 +10,5 @@ urlpatterns = [
     path("logout/", views.logout_user, name="logout"),
     path('berkas/', views.upload_berkas, name='upload_berkas'),
     path('sukses/', views.sukses_upload, name='sukses_upload'),
+    path('ubahberkas/', views.ubah_berkas, name='ubah_berkas'),
 ]

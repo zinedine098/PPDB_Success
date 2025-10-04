@@ -136,3 +136,9 @@ def sukses_upload(request):
     View sederhana untuk menampilkan halaman sukses.
     """
     return render(request, 'pendaftaran/sukses.html')
+@never_cache
+def ubah_berkas(request):
+    """
+    View sederhana untuk menampilkan halaman sukses.
+    """
+    return render(request, 'pendaftaran/ubahberkas.html')

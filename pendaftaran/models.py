@@ -2,6 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+STATUS_CHOICES = (
+    ('menunggu', 'Menunggu Verifikasi'),
+    ('lulus', 'Lulus'),
+    ('tidak_lulus', 'Tidak Lulus'),
+)
 class BiodataPeserta(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -36,6 +41,14 @@ class BiodataPeserta(models.Model):
     ukuran_seragam = models.CharField(
         max_length=5,
         choices=(('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL'), ('XXXL', 'XXXL'))
+    )
+
+     # --- FIELD BARU ---
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='menunggu',  # Status default saat data baru dibuat
+        help_text="Status verifikasi pendaftaran peserta."
     )
 
     def __str__(self):

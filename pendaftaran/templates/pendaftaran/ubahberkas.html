@@ -1,0 +1,781 @@
+{% extends "pendaftaran/base.html" %}
+
+{% block title %}Ubah Berkas{% endblock %}
+{% block page_title %}Ubah Berkas{% endblock %}
+
+{% block content %}
+<!-- Progress Section -->
+<div class="row mb-4 fade-in" data-aos="fade-up">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h5 class="mb-0">Progress Upload Berkas</h5>
+                    <span class="badge bg-primary rounded-pill px-3 py-2" id="uploadCount">0/7 Berkas</span>
+                </div>
+                <div class="progress" style="height: 10px;">
+                    <div class="progress-bar bg-primary" role="progressbar" style="width: 0%" id="uploadProgress" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <small class="text-muted mt-1 d-block">Silakan lengkapi semua berkas yang diperlukan untuk menyelesaikan pendaftaran Anda.</small>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Upload Form Section -->
+<div class="row mb-4" data-aos="fade-up">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-0 pt-4">
+                <h5 class="mb-0"><i class="bi bi-cloud-upload me-2 text-primary"></i> Unggah Berkas</h5>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data" id="uploadForm" novalidate>
+                    {% csrf_token %}
+                    
+                    <!-- Alert for form errors -->
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger d-flex align-items-center" role="alert">
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                        <div>{{ form.non_field_errors }}</div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="row">
+                        <!-- Foto Profile -->
+                        <div class="col-md-6 mb-4">
+                            <div class="file-upload-card h-100">
+                                <div class="file-upload-header">
+                                    <h6><i class="bi bi-person-circle me-2"></i>Foto Profil</h6>
+                                    <span class="badge bg-danger rounded-pill">Wajib</span>
+                                </div>
+                                <div class="file-upload-body">
+                                    <div class="file-preview-container" id="preview_foto_profile">
+                                        <div class="file-preview-placeholder">
+                                            <i class="bi bi-image"></i>
+                                            <p>Belum ada file</p>
+                                        </div>
+                                    </div>
+                                    <div class="file-input-container">
+                                        <label for="id_foto_profile" class="file-input-label">
+                                            <i class="bi bi-upload me-2"></i>Pilih File
+                                        </label>
+                                        {{ form.foto_profile }}
+                                        <div class="file-info">
+                                            <small class="text-muted">Format: JPG, PNG. Maksimal: 5MB</small>
+                                        </div>
+                                        {% if form.foto_profile.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.foto_profile.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Surat Keterangan Lulus -->
+                        <div class="col-md-6 mb-4">
+                            <div class="file-upload-card h-100">
+                                <div class="file-upload-header">
+                                    <h6><i class="bi bi-file-earmark-text me-2"></i>Surat Keterangan Lulus</h6>
+                                    <span class="badge bg-danger rounded-pill">Wajib</span>
+                                </div>
+                                <div class="file-upload-body">
+                                    <div class="file-preview-container" id="preview_surat_keterangan_lulus">
+                                        <div class="file-preview-placeholder">
+                                            <i class="bi bi-image"></i>
+                                            <p>Belum ada file</p>
+                                        </div>
+                                    </div>
+                                    <div class="file-input-container">
+                                        <label for="id_surat_keterangan_lulus" class="file-input-label">
+                                            <i class="bi bi-upload me-2"></i>Pilih File
+                                        </label>
+                                        {{ form.surat_keterangan_lulus }}
+                                        <div class="file-info">
+                                            <small class="text-muted">Format: JPG, PNG. Maksimal: 5MB</small>
+                                        </div>
+                                        {% if form.surat_keterangan_lulus.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.surat_keterangan_lulus.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ijazah -->
+                        <div class="col-md-6 mb-4">
+                            <div class="file-upload-card h-100">
+                                <div class="file-upload-header">
+                                    <h6><i class="bi bi-award me-2"></i>Ijazah</h6>
+                                    <span class="badge bg-danger rounded-pill">Wajib</span>
+                                </div>
+                                <div class="file-upload-body">
+                                    <div class="file-preview-container" id="preview_ijazah">
+                                        <div class="file-preview-placeholder">
+                                            <i class="bi bi-image"></i>
+                                            <p>Belum ada file</p>
+                                        </div>
+                                    </div>
+                                    <div class="file-input-container">
+                                        <label for="id_ijazah" class="file-input-label">
+                                            <i class="bi bi-upload me-2"></i>Pilih File
+                                        </label>
+                                        {{ form.ijazah }}
+                                        <div class="file-info">
+                                            <small class="text-muted">Format: JPG, PNG. Maksimal: 5MB</small>
+                                        </div>
+                                        {% if form.ijazah.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.ijazah.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- KTP Ayah -->
+                        <div class="col-md-6 mb-4">
+                            <div class="file-upload-card h-100">
+                                <div class="file-upload-header">
+                                    <h6><i class="bi bi-card-text me-2"></i>KTP Ayah</h6>
+                                    <span class="badge bg-danger rounded-pill">Wajib</span>
+                                </div>
+                                <div class="file-upload-body">
+                                    <div class="file-preview-container" id="preview_ktp_orang_tua_lk">
+                                        <div class="file-preview-placeholder">
+                                            <i class="bi bi-image"></i>
+                                            <p>Belum ada file</p>
+                                        </div>
+                                    </div>
+                                    <div class="file-input-container">
+                                        <label for="id_ktp_orang_tua_lk" class="file-input-label">
+                                            <i class="bi bi-upload me-2"></i>Pilih File
+                                        </label>
+                                        {{ form.ktp_orang_tua_lk }}
+                                        <div class="file-info">
+                                            <small class="text-muted">Format: JPG, PNG. Maksimal: 5MB</small>
+                                        </div>
+                                        {% if form.ktp_orang_tua_lk.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.ktp_orang_tua_lk.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- KTP Ibu -->
+                        <div class="col-md-6 mb-4">
+                            <div class="file-upload-card h-100">
+                                <div class="file-upload-header">
+                                    <h6><i class="bi bi-card-text me-2"></i>KTP Ibu</h6>
+                                    <span class="badge bg-danger rounded-pill">Wajib</span>
+                                </div>
+                                <div class="file-upload-body">
+                                    <div class="file-preview-container" id="preview_ktp_orang_tua_pr">
+                                        <div class="file-preview-placeholder">
+                                            <i class="bi bi-image"></i>
+                                            <p>Belum ada file</p>
+                                        </div>
+                                    </div>
+                                    <div class="file-input-container">
+                                        <label for="id_ktp_orang_tua_pr" class="file-input-label">
+                                            <i class="bi bi-upload me-2"></i>Pilih File
+                                        </label>
+                                        {{ form.ktp_orang_tua_pr }}
+                                        <div class="file-info">
+                                            <small class="text-muted">Format: JPG, PNG. Maksimal: 5MB</small>
+                                        </div>
+                                        {% if form.ktp_orang_tua_pr.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.ktp_orang_tua_pr.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Foto KK -->
+                        <div class="col-md-6 mb-4">
+                            <div class="file-upload-card h-100">
+                                <div class="file-upload-header">
+                                    <h6><i class="bi bi-people me-2"></i>Foto Kartu Keluarga</h6>
+                                    <span class="badge bg-danger rounded-pill">Wajib</span>
+                                </div>
+                                <div class="file-upload-body">
+                                    <div class="file-preview-container" id="preview_foto_kk">
+                                        <div class="file-preview-placeholder">
+                                            <i class="bi bi-image"></i>
+                                            <p>Belum ada file</p>
+                                        </div>
+                                    </div>
+                                    <div class="file-input-container">
+                                        <label for="id_foto_kk" class="file-input-label">
+                                            <i class="bi bi-upload me-2"></i>Pilih File
+                                        </label>
+                                        {{ form.foto_kk }}
+                                        <div class="file-info">
+                                            <small class="text-muted">Format: JPG, PNG. Maksimal: 5MB</small>
+                                        </div>
+                                        {% if form.foto_kk.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.foto_kk.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Foto Akte Kelahiran -->
+                        <div class="col-md-6 mb-4">
+                            <div class="file-upload-card h-100">
+                                <div class="file-upload-header">
+                                    <h6><i class="bi bi-journal-text me-2"></i>Foto Akte Kelahiran</h6>
+                                    <span class="badge bg-danger rounded-pill">Wajib</span>
+                                </div>
+                                <div class="file-upload-body">
+                                    <div class="file-preview-container" id="preview_foto_akte_kelahiran">
+                                        <div class="file-preview-placeholder">
+                                            <i class="bi bi-image"></i>
+                                            <p>Belum ada file</p>
+                                        </div>
+                                    </div>
+                                    <div class="file-input-container">
+                                        <label for="id_foto_akte_kelahiran" class="file-input-label">
+                                            <i class="bi bi-upload me-2"></i>Pilih File
+                                        </label>
+                                        {{ form.foto_akte_kelahiran }}
+                                        <div class="file-info">
+                                            <small class="text-muted">Format: JPG, PNG. Maksimal: 5MB</small>
+                                        </div>
+                                        {% if form.foto_akte_kelahiran.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.foto_akte_kelahiran.errors }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'home' %}" class="btn btn-light">
+                                    <i class="bi bi-arrow-left me-2"></i>Kembali
+                                </a>
+                                <button type="submit" class="btn btn-primary-custom" id="submitBtn">
+                                    <i class="bi bi-check-circle me-2"></i>Simpan Perubahan
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Existing Files Section -->
+{% if berkas %}
+<div class="row mb-4" data-aos="fade-up">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-0 pt-4">
+                <h5 class="mb-0"><i class="bi bi-folder2-open me-2 text-primary"></i> Berkas Saat Ini</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="existing-file-card">
+                            <div class="existing-file-preview">
+                                <img src="{{ berkas.foto_profile.url }}" alt="Foto Profil">
+                            </div>
+                            <div class="existing-file-info">
+                                <h6>Foto Profil</h6>
+                                <small class="text-muted">Diunggah pada: {{ berkas.foto_profile|date:"d M Y" }}</small>
+                                <a href="{{ berkas.foto_profile.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    <i class="bi bi-eye me-1"></i>Lihat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="existing-file-card">
+                            <div class="existing-file-preview">
+                                <img src="{{ berkas.surat_keterangan_lulus.url }}" alt="Surat Keterangan Lulus">
+                            </div>
+                            <div class="existing-file-info">
+                                <h6>Surat Keterangan Lulus</h6>
+                                <small class="text-muted">Diunggah pada: {{ berkas.surat_keterangan_lulus|date:"d M Y" }}</small>
+                                <a href="{{ berkas.surat_keterangan_lulus.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    <i class="bi bi-eye me-1"></i>Lihat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="existing-file-card">
+                            <div class="existing-file-preview">
+                                <img src="{{ berkas.ijazah.url }}" alt="Ijazah">
+                            </div>
+                            <div class="existing-file-info">
+                                <h6>Ijazah</h6>
+                                <small class="text-muted">Diunggah pada: {{ berkas.ijazah|date:"d M Y" }}</small>
+                                <a href="{{ berkas.ijazah.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    <i class="bi bi-eye me-1"></i>Lihat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="existing-file-card">
+                            <div class="existing-file-preview">
+                                <img src="{{ berkas.ktp_orang_tua_lk.url }}" alt="KTP Ayah">
+                            </div>
+                            <div class="existing-file-info">
+                                <h6>KTP Ayah</h6>
+                                <small class="text-muted">Diunggah pada: {{ berkas.ktp_orang_tua_lk|date:"d M Y" }}</small>
+                                <a href="{{ berkas.ktp_orang_tua_lk.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    <i class="bi bi-eye me-1"></i>Lihat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="existing-file-card">
+                            <div class="existing-file-preview">
+                                <img src="{{ berkas.ktp_orang_tua_pr.url }}" alt="KTP Ibu">
+                            </div>
+                            <div class="existing-file-info">
+                                <h6>KTP Ibu</h6>
+                                <small class="text-muted">Diunggah pada: {{ berkas.ktp_orang_tua_pr|date:"d M Y" }}</small>
+                                <a href="{{ berkas.ktp_orang_tua_pr.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    <i class="bi bi-eye me-1"></i>Lihat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="existing-file-card">
+                            <div class="existing-file-preview">
+                                <img src="{{ berkas.foto_kk.url }}" alt="Foto KK">
+                            </div>
+                            <div class="existing-file-info">
+                                <h6>Foto Kartu Keluarga</h6>
+                                <small class="text-muted">Diunggah pada: {{ berkas.foto_kk|date:"d M Y" }}</small>
+                                <a href="{{ berkas.foto_kk.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    <i class="bi bi-eye me-1"></i>Lihat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <div class="existing-file-card">
+                            <div class="existing-file-preview">
+                                <img src="{{ berkas.foto_akte_kelahiran.url }}" alt="Akte Kelahiran">
+                            </div>
+                            <div class="existing-file-info">
+                                <h6>Foto Akte Kelahiran</h6>
+                                <small class="text-muted">Diunggah pada: {{ berkas.foto_akte_kelahiran|date:"d M Y" }}</small>
+                                <a href="{{ berkas.foto_akte_kelahiran.url }}" target="_blank" class="btn btn-sm btn-outline-primary mt-2">
+                                    <i class="bi bi-eye me-1"></i>Lihat
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
+<!-- Instructions Section -->
+<div class="row mb-4" data-aos="fade-up">
+    <div class="col-12">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-0 pt-4">
+                <h5 class="mb-0"><i class="bi bi-info-circle me-2 text-primary"></i> Petunjuk Upload</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6 class="fw-bold">Format File</h6>
+                        <ul>
+                            <li>Semua berkas harus dalam format gambar (JPG, JPEG, atau PNG)</li>
+                            <li>Ukuran file maksimal adalah 5MB untuk setiap berkas</li>
+                            <li>Pastikan gambar jelas dan mudah dibaca</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h6 class="fw-bold">Kualitas Gambar</h6>
+                        <ul>
+                            <li>Gunakan resolusi yang cukup tinggi agar teks terbaca dengan jelas</li>
+                            <li>Usahakan tidak ada bayangan atau cahaya yang mengganggu</li>
+                            <li>Pastikan seluruh dokumen terlihat dalam gambar</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Function to update upload progress
+    function updateUploadProgress() {
+        const totalFields = 7;
+        let filledFields = 0;
+        
+        // Check each file input
+        const fileInputs = document.querySelectorAll('input[type="file"]');
+        fileInputs.forEach(input => {
+            if (input.files.length > 0) {
+                filledFields++;
+            }
+        });
+        
+        // Update progress bar and count
+        const progressPercent = (filledFields / totalFields) * 100;
+        document.getElementById('uploadProgress').style.width = progressPercent + '%';
+        document.getElementById('uploadProgress').setAttribute('aria-valuenow', progressPercent);
+        document.getElementById('uploadCount').textContent = `${filledFields}/${totalFields} Berkas`;
+        
+        // Change progress bar color based on completion
+        const progressBar = document.getElementById('uploadProgress');
+        progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success');
+        
+        if (progressPercent === 100) {
+            progressBar.classList.add('bg-success');
+        } else if (progressPercent >= 50) {
+            progressBar.classList.add('bg-warning');
+        } else {
+            progressBar.classList.add('bg-danger');
+        }
+    }
+    
+    // Function to preview image when file is selected
+    function previewImage(input, previewId) {
+        const preview = document.getElementById(previewId);
+        
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                preview.innerHTML = `
+                    <img src="${e.target.result}" alt="Preview">
+                    <div class="file-preview-actions">
+                        <button type="button" class="btn btn-sm btn-danger remove-file" data-target="${input.id}">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                `;
+                
+                // Add event listener to remove button
+                const removeBtn = preview.querySelector('.remove-file');
+                removeBtn.addEventListener('click', function() {
+                    input.value = '';
+                    preview.innerHTML = `
+                        <div class="file-preview-placeholder">
+                            <i class="bi bi-image"></i>
+                            <p>Belum ada file</p>
+                        </div>
+                    `;
+                    updateUploadProgress();
+                });
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+    
+    // Add event listeners to all file inputs
+    const fileInputs = document.querySelectorAll('input[type="file"]');
+    fileInputs.forEach(input => {
+        input.addEventListener('change', function() {
+            const previewId = 'preview_' + this.id.replace('id_', '');
+            previewImage(this, previewId);
+            updateUploadProgress();
+        });
+    });
+    
+    // Initialize progress on page load
+    updateUploadProgress();
+    
+    // Form submission with loading state
+    const form = document.getElementById('uploadForm');
+    const submitBtn = document.getElementById('submitBtn');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // Check if all required fields are filled
+        let allFieldsFilled = true;
+        fileInputs.forEach(input => {
+            if (input.files.length === 0) {
+                allFieldsFilled = false;
+            }
+        });
+        
+        if (!allFieldsFilled) {
+            // Show warning if not all fields are filled
+            const warningDiv = document.createElement('div');
+            warningDiv.className = 'alert alert-warning d-flex align-items-center mt-3';
+            warningDiv.innerHTML = `
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <div>Harap lengkapi semua berkas yang diperlukan sebelum menyimpan.</div>
+            `;
+            form.appendChild(warningDiv);
+            
+            // Remove warning after 5 seconds
+            setTimeout(() => {
+                warningDiv.remove();
+            }, 5000);
+            
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Menyimpan...';
+        
+        // Submit the form
+        form.submit();
+    });
+    
+    // Add drag and drop functionality
+    const fileUploadCards = document.querySelectorAll('.file-upload-card');
+    
+    fileUploadCards.forEach(card => {
+        const fileInput = card.querySelector('input[type="file"]');
+        const previewContainer = card.querySelector('.file-preview-container');
+        
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            previewContainer.addEventListener(eventName, preventDefaults, false);
+        });
+        
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+        
+        ['dragenter', 'dragover'].forEach(eventName => {
+            previewContainer.addEventListener(eventName, highlight, false);
+        });
+        
+        ['dragleave', 'drop'].forEach(eventName => {
+            previewContainer.addEventListener(eventName, unhighlight, false);
+        });
+        
+        function highlight() {
+            previewContainer.classList.add('drag-over');
+        }
+        
+        function unhighlight() {
+            previewContainer.classList.remove('drag-over');
+        }
+        
+        previewContainer.addEventListener('drop', handleDrop, false);
+        
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            
+            if (files.length > 0) {
+                fileInput.files = files;
+                const event = new Event('change', { bubbles: true });
+                fileInput.dispatchEvent(event);
+            }
+        }
+    });
+});
+</script>
+
+<style>
+/* File Upload Card Styles */
+.file-upload-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.file-upload-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
+
+.file-upload-header {
+    background-color: #f8f9fa;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.file-upload-header h6 {
+    margin: 0;
+    font-weight: 600;
+    color: #495057;
+}
+
+.file-upload-body {
+    padding: 20px;
+}
+
+.file-preview-container {
+    border: 2px dashed #e0e0e0;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    margin-bottom: 15px;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: #f8f9fa;
+}
+
+.file-preview-container.drag-over {
+    border-color: var(--primary-color);
+    background-color: rgba(67, 97, 238, 0.05);
+}
+
+.file-preview-placeholder {
+    color: #6c757d;
+}
+
+.file-preview-placeholder i {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: #adb5bd;
+}
+
+.file-preview-container img {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+.file-preview-actions {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.file-input-container {
+    text-align: center;
+}
+
+.file-input-label {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 500;
+}
+
+.file-input-label:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.file-info {
+    margin-top: 5px;
+}
+
+/* Existing File Card Styles */
+.existing-file-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    height: 100%;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.existing-file-card:hover {
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
+
+.existing-file-preview {
+    height: 180px;
+    overflow: hidden;
+    background-color: #f8f9fa;
+}
+
+.existing-file-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.existing-file-card:hover .existing-file-preview img {
+    transform: scale(1.05);
+}
+
+.existing-file-info {
+    padding: 15px;
+}
+
+.existing-file-info h6 {
+    margin-bottom: 5px;
+    font-weight: 600;
+    color: #495057;
+}
+
+/* Progress Bar Animation */
+.progress-bar {
+    transition: width 0.6s ease;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .file-upload-card {
+        margin-bottom: 20px;
+    }
+    
+    .file-preview-container {
+        min-height: 150px;
+    }
+}
+
+/* Custom animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease forwards;
+}
+</style>
+{% endblock %}

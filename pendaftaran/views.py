@@ -3,32 +3,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from django.views.decorators.cache import never_cache
 from .forms import UserRegisterForm, BiodataPesertaForm
+from django.contrib.auth.decorators import login_required
 
-
-
-# def register(request):
-#     if request.method == "POST":
-#         user_form = UserRegisterForm(request.POST)
-#         biodata_form = BiodataPesertaForm(request.POST)
-#         if user_form.is_valid() and biodata_form.is_valid():
-#             # Simpan user dulu
-#             user = user_form.save()
-#             # Simpan biodata dan kaitkan dengan user
-#             biodata = biodata_form.save(commit=False)
-#             biodata.user = user
-#             biodata.save()
-#             messages.success(request, "Pendaftaran berhasil! Silakan login.")
-#             return redirect('login')  # pastikan 'login' sudah ada di urls.py
-#     else:
-#         user_form = UserRegisterForm()
-#         biodata_form = BiodataPesertaForm()
-
-#     context = {
-#         'user_form': user_form,
-#         'biodata_form': biodata_form
-#     }
-#     return render(request, 'pendaftaran/register.html', context)
 
 def register(request):
     if request.method == "POST":
@@ -76,8 +54,10 @@ def logout_user(request):
     logout(request)
     return redirect("login")
 
+@login_required
+@never_cache
 def home(request):
     return render(request, "pendaftaran/home.html")
-
-def utama(request):
-    return render(request, "pendaftaran/utama.html")
+    
+# def utama(request):
+#     return render(request, "pendaftaran/utama.html")

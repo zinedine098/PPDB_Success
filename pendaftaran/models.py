@@ -33,7 +33,10 @@ class BiodataPeserta(models.Model):
         max_length=30,
         choices=(('Rekayasa Perangkat Lunak', 'Rekayasa Perangkat Lunak'), ('MultiMedia', 'MultiMedia'), ('Teknik Komputer Jaringan', 'Teknik Komputer Jaringan'))
     )
-    ukuran_seragam = models.CharField(max_length=10)
+    ukuran_seragam = models.CharField(
+        max_length=5,
+        choices=(('S', 'S'), ('M', 'M'), ('L', 'L'), ('XL', 'XL'), ('XXL', 'XXL'), ('XXXL', 'XXXL'))
+    )
 
     def __str__(self):
         return self.nama_lengkap

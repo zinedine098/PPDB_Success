@@ -7,7 +7,7 @@ from django.views.decorators.cache import never_cache
 from .forms import UserRegisterForm, BiodataPesertaForm
 from django.contrib.auth.decorators import login_required
 from .forms import BerkasSiswaForm
-from .models import BerkasSiswa
+from .models import BerkasSiswa, BiodataPeserta
 
 def register(request):
     if request.method == "POST":
@@ -54,19 +54,6 @@ def logout_user(request):
     logout(request)
     return redirect("login")
 
-
-# @login_required
-# @never_cache
-# def home(request):
-#     return render(request, "pendaftaran/home.html")
-
-# pendaftaran/views.py
-
-from django.shortcuts import render
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.cache import never_cache
-from .models import BiodataPeserta, BerkasSiswa  # <-- Tambahkan import ini
-
 @login_required
 @never_cache
 def home(request):
@@ -105,40 +92,6 @@ def home(request):
     # Render template dengan context yang sudah disiapkan
     return render(request, "pendaftaran/home.html", context)
 
-# @login_required
-# def upload_berkas(request):
-#     """
-#     View untuk menampilkan dan memproses form pengunggahan berkas siswa.
-#     Hanya pengguna yang login yang dapat mengakses halaman ini.
-#     """
-#     # Cek apakah pengguna sudah memiliki objek BerkasSiswa
-#     try:
-#         berkas_instance = request.user.berkas_siswa
-#     except BerkasSiswa.DoesNotExist:
-#         berkas_instance = None
-
-#     if request.method == 'POST':
-#         # Jika form disubmit, proses data POST dan FILES
-#         form = BerkasSiswaForm(request.POST, request.FILES, instance=berkas_instance)
-#         if form.is_valid():
-#             # Simpan objek form, tapi jangan commit ke database dulu
-#             berkas_obj = form.save(commit=False)
-#             # Hubungkan dengan user yang sedang login
-#             berkas_obj.user = request.user
-#             # Sekarang, simpan ke database
-#             berkas_obj.save()
-#             # Redirect ke halaman sukses atau halaman lain
-#             return redirect('sukses_upload') # Ganti dengan nama URL sukses Anda
-#     else:
-#         # Jika adalah request GET, tampilkan form kosong atau form dengan data yang sudah ada
-#         form = BerkasSiswaForm(instance=berkas_instance)
-
-#     # Render template dengan form
-#     return render(request, 'pendaftaran/berkas.html', {'form': form})
-
-from django.shortcuts import render, redirect
-# ... import lainnya yang diperlukan, seperti login_required, BerkasSiswaForm, dll.
-
 @login_required
 def upload_berkas(request):
     """
@@ -176,7 +129,6 @@ def upload_berkas(request):
 
     # Render template dengan form
     return render(request, 'pendaftaran/berkas.html', {'form': form})
-
 
 def sukses_upload(request):
     """

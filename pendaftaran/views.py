@@ -42,7 +42,6 @@ def register(request):
     }
     return render(request, 'pendaftaran/register.html', context)
 
-# pendaftaran/views.py
 def login_user(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -60,8 +59,10 @@ def login_user(request):
 @never_cache
 def logout_user(request):
     logout(request)
+    request.session.flush()  # Tambahkan baris ini
     return redirect("login")
 
+@never_cache
 @login_required
 def home(request):
     # Ambil objek user yang sedang login
@@ -98,6 +99,8 @@ def home(request):
     
     # Render template dengan context yang sudah disiapkan
     return render(request, "pendaftaran/home.html", context)
+
+@never_cache
 @login_required
 def upload_berkas(request):
     """
@@ -135,18 +138,23 @@ def upload_berkas(request):
 
     # Render template dengan form
     return render(request, 'pendaftaran/berkas.html', {'form': form})
+
+@never_cache
 def sukses_upload(request):
     """
     View sederhana untuk menampilkan halaman sukses.
     """
     return render(request, 'pendaftaran/sukses.html')
 
+@never_cache
 def ubah_berkas(request):
     """
     View sederhana untuk menampilkan halaman sukses.
     """
     return render(request, 'pendaftaran/ubahberkas.html')
-# views.py
+
+@never_cache
+@login_required
 def profile(request):
     user = request.user
     biodata = None
@@ -161,10 +169,6 @@ def profile(request):
         berkas = user.berkas_siswa
     except BerkasSiswa.DoesNotExist:
         pass
-
-    # --- TAMBAHKAN BARIS INI UNTUK DEBUGGING ---
-
-    # -------------------------------------------
 
     context = {
         'biodata': biodata,

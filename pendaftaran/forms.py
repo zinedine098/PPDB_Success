@@ -1,3 +1,5 @@
+# forms.py
+
 from .models import BerkasSiswa
 from django import forms
 from django.contrib.auth.models import User
@@ -63,7 +65,10 @@ class BiodataPesertaForm(forms.ModelForm):
 
     class Meta:
         model = BiodataPeserta
-        exclude = ['user']
+        # --- PERUBAHAN ADA DI BARIS INI ---
+        # Tambahkan 'status' ke dalam exclude agar tidak muncul di form
+        exclude = ['user', 'status']
+        # ---------------------------------
         labels = {
             'kewarganegaraan': 'Kewarganegaraan',
             'nomor_kk': 'Nomor Kartu Keluarga',

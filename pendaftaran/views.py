@@ -8,11 +8,19 @@ from .forms import UserRegisterForm, BiodataPesertaForm
 from django.contrib.auth.decorators import login_required
 from .forms import BerkasSiswaForm
 from .models import BerkasSiswa, BiodataPeserta
-@never_cache
+
 def register(request):
     if request.method == "POST":
         user_form = UserRegisterForm(request.POST)
         biodata_form = BiodataPesertaForm(request.POST)
+        
+        # Debug: print form errors
+        if not user_form.is_valid():
+            print("User Form Errors:", user_form.errors)
+        
+        if not biodata_form.is_valid():
+            print("Biodata Form Errors:", biodata_form.errors)
+        
         if user_form.is_valid() and biodata_form.is_valid():
             # Simpan user dulu
             user = user_form.save()
@@ -35,7 +43,6 @@ def register(request):
     return render(request, 'pendaftaran/register.html', context)
 
 # pendaftaran/views.py
-@never_cache
 def login_user(request):
     if request.method == "POST":
         form = AuthenticationForm(request, data=request.POST)
@@ -56,7 +63,6 @@ def logout_user(request):
     return redirect("login")
 
 @login_required
-@never_cache
 def home(request):
     # Ambil objek user yang sedang login
     user = request.user
@@ -92,7 +98,6 @@ def home(request):
     
     # Render template dengan context yang sudah disiapkan
     return render(request, "pendaftaran/home.html", context)
-@never_cache
 @login_required
 def upload_berkas(request):
     """
@@ -130,15 +135,40 @@ def upload_berkas(request):
 
     # Render template dengan form
     return render(request, 'pendaftaran/berkas.html', {'form': form})
-@never_cache
 def sukses_upload(request):
     """
     View sederhana untuk menampilkan halaman sukses.
     """
     return render(request, 'pendaftaran/sukses.html')
-@never_cache
+
 def ubah_berkas(request):
     """
     View sederhana untuk menampilkan halaman sukses.
     """
     return render(request, 'pendaftaran/ubahberkas.html')
+# views.py
+def profile(request):
+    user = request.user
+    biodata = None
+    berkas = None
+    
+    try:
+        biodata = user.biodatapeserta
+    except BiodataPeserta.DoesNotExist:
+        pass
+
+    try:
+        berkas = user.berkas_siswa
+    except BerkasSiswa.DoesNotExist:
+        pass
+
+    # --- TAMBAHKAN BARIS INI UNTUK DEBUGGING ---
+
+    # -------------------------------------------
+
+    context = {
+        'biodata': biodata,
+        'berkas': berkas,
+    }
+
+    return render(request, 'pendaftaran/profile.html', context)

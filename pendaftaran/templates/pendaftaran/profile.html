@@ -1,0 +1,650 @@
+{% extends "pendaftaran/base.html" %}
+
+{% block title %}Profil Saya{% endblock %}
+{% block page_title %}Profil Saya{% endblock %}
+
+{% block content %}
+<!-- Profile Header Section -->
+<div class="profile-header">
+    <div class="profile-header-bg"></div>
+    <div class="container position-relative">
+        <div class="row align-items-center">
+            <div class="col-md-3 text-center text-md-start mb-4 mb-md-0">
+                <div class="profile-avatar-container" data-aos="zoom-in" data-aos-delay="100">
+                    <img src="{% if berkas.foto_profile %}{{ berkas.foto_profile.url }}{% endif %}" alt="Profile Avatar" class="profile-avatar">
+                    <div class="avatar-status-indicator"></div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="profile-info" data-aos="fade-up">
+                    <h1 class="profile-name">{{ biodata.nama_lengkap|default:"Nama Pengguna" }}</h1>
+                    <p class="profile-status">
+                        <span class="badge bg-success rounded-pill px-3 py-2">
+                            <i class="bi bi-patch-check-fill me-1"></i> Terverifikasi
+                        </span>
+                        <span class="text-muted ms-2">Peserta Pendaftaran</span>
+                    </p>
+                    <div class="profile-meta">
+                        <span class="meta-item">
+                            <i class="bi bi-calendar3 me-1"></i>
+                            Bergabung sejak {{ user.date_joined|date:"F Y" }}
+                        </span>
+                        <span class="meta-item">
+                            <i class="bi bi-geo-alt me-1"></i>
+                            {{ biodata.kabupaten|default:"Lokasi tidak diketahui" }}, {{ biodata.provinsi|default:"" }}
+                        </span>
+                    </div>
+                    <div class="profile-actions mt-3">
+                        <!-- <button type="button" class="btn btn-primary-custom me-2" data-bs-toggle="modal" data-bs-target="#profileEditModal">
+                            <i class="bi bi-pencil-square me-2"></i>Edit Profil
+                        </button>
+                        <button type="button" class="btn btn-outline-secondary">
+                            <i class="bi bi-gear me-2"></i>Pengaturan
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="container content-container">
+    <!-- Statistics Cards -->
+    <div class="row mb-4">
+        <div class="col-md-3 col-sm-6 mb-3" data-aos="fade-up" data-aos-delay="100">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-file-earmark-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-number">7/7</h3>
+                    <p class="stat-label">Berkas Lengkap</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3" data-aos="fade-up" data-aos-delay="200">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-clipboard-check"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-number">100%</h3>
+                    <p class="stat-label">Profil Terisi</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3" data-aos="fade-up" data-aos-delay="300">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-book"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-number">{{ biodata.jurusan }}</h3>
+                    <p class="stat-label">Jurusan Pilihan</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3 col-sm-6 mb-3" data-aos="fade-up" data-aos-delay="400">
+            <div class="stat-card">
+                <div class="stat-icon">
+                    <i class="bi bi-hourglass-split"></i>
+                </div>
+                <div class="stat-info">
+                    <h3 class="stat-number">Proses</h3>
+                    <p class="stat-label">Status Verifikasi</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Information Tabs -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card border-0 shadow-sm" data-aos="fade-up">
+                <div class="card-header bg-white border-0 pt-4">
+                    <ul class="nav nav-tabs card-header-tabs" id="profileTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="info-tab" data-bs-toggle="tab" data-bs-target="#info" type="button" role="tab" aria-controls="info" aria-selected="true">
+                                <i class="bi bi-person me-2"></i>Informasi Pribadi
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">
+                                <i class="bi bi-telephone me-2"></i>Kontak & Alamat
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="education-tab" data-bs-toggle="tab" data-bs-target="#education" type="button" role="tab" aria-controls="education" aria-selected="false">
+                                <i class="bi bi-mortarboard me-2"></i>Pendidikan
+                            </button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab" aria-controls="activity" aria-selected="false">
+                                <i class="bi bi-clock-history me-2"></i>Aktivitas
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="profileTabContent">
+                        <!-- Informasi Pribadi Tab -->
+                        <div class="tab-pane fade show active" id="info" role="tabpanel" aria-labelledby="info-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-borderless table-profile">
+                                        <tr>
+                                            <td class="table-label">Nama Lengkap</td>
+                                            <td class="table-value">{{ biodata.nama_lengkap|default:"-" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-label">NIK</td>
+                                            <td class="table-value">{{ biodata.nik|default:"-" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-label">Nomor KK</td>
+                                            <td class="table-value">{{ biodata.nomor_kk|default:"-" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-label">Jenis Kelamin</td>
+                                            <td class="table-value">{{ biodata.jenis_kelamin|default:"-" }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <table class="table table-borderless table-profile">
+                                        <tr>
+                                            <td class="table-label">Tempat Lahir</td>
+                                            <td class="table-value">{{ biodata.tempat_lahir|default:"-" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-label">Tanggal Lahir</td>
+                                            <td class="table-value">{{ biodata.tanggal_lahir|date:"d F Y"|default:"-" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-label">Email</td>
+                                            <td class="table-value">{{ user.email|default:"-" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-label">Username</td>
+                                            <td class="table-value">{{ user.username|default:"-" }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Kontak & Alamat Tab -->
+                        <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6 class="mb-3">Alamat Lengkap</h6>
+                                    <p class="text-muted">
+                                        {{ biodata.jalan|default:"-" }}, Kec. {{ biodata.kecamatan|default:"-" }}, 
+                                        {{ biodata.kabupaten|default:"-" }}, {{ biodata.provinsi|default:"-" }}, 
+                                        {{ biodata.negara|default:"-" }} {{ biodata.kode_pos|default:"-" }}
+                                    </p>
+                                    <hr>
+                                    <div class="row mt-4">
+                                        <div class="col-md-6">
+                                            <h6 class="mb-3">Informasi Orang Tua</h6>
+                                            <table class="table table-borderless table-profile">
+                                                <tr>
+                                                    <td class="table-label">KTP Ayah</td>
+                                                    <td class="table-value">
+                                                        {% if berkas.ktp_orang_tua_lk %}
+                                                            <a href="{{ berkas.ktp_orang_tua_lk.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-eye me-1"></i>Lihat Dokumen
+                                                            </a>
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="table-label">KTP Ibu</td>
+                                                    <td class="table-value">
+                                                        {% if berkas.ktp_orang_tua_pr %}
+                                                            <a href="{{ berkas.ktp_orang_tua_pr.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-eye me-1"></i>Lihat Dokumen
+                                                            </a>
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <h6 class="mb-3">Dokumen Keluarga</h6>
+                                            <table class="table table-borderless table-profile">
+                                                <tr>
+                                                    <td class="table-label">Kartu Keluarga</td>
+                                                    <td class="table-value">
+                                                        {% if berkas.foto_kk %}
+                                                            <a href="{{ berkas.foto_kk.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-eye me-1"></i>Lihat Dokumen
+                                                            </a>
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="table-label">Akte Kelahiran</td>
+                                                    <td class="table-value">
+                                                        {% if berkas.foto_akte_kelahiran %}
+                                                            <a href="{{ berkas.foto_akte_kelahiran.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                                <i class="bi bi-eye me-1"></i>Lihat Dokumen
+                                                            </a>
+                                                        {% else %}
+                                                            -
+                                                        {% endif %}
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Pendidikan Tab -->
+                        <div class="tab-pane fade" id="education" role="tabpanel" aria-labelledby="education-tab">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <table class="table table-borderless table-profile">
+                                        <tr>
+                                            <td class="table-label">Pendidikan Terakhir</td>
+                                            <td class="table-value">{{ biodata.pendidikan_terakhir|default:"-" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-label">Jurusan yang Dipilih</td>
+                                            <td class="table-value">{{ biodata.jurusan|default:"-" }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-md-6">
+                                    <h6 class="mb-3">Dokumen Pendidikan</h6>
+                                    <table class="table table-borderless table-profile">
+                                        <tr>
+                                            <td class="table-label">Surat Keterangan Lulus</td>
+                                            <td class="table-value">
+                                                {% if berkas.surat_keterangan_lulus %}
+                                                    <a href="{{ berkas.surat_keterangan_lulus.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye me-1"></i>Lihat Dokumen
+                                                    </a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="table-label">Ijazah</td>
+                                            <td class="table-value">
+                                                {% if berkas.ijazah %}
+                                                    <a href="{{ berkas.ijazah.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                                                        <i class="bi bi-eye me-1"></i>Lihat Dokumen
+                                                    </a>
+                                                {% else %}
+                                                    -
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Aktivitas Tab -->
+                        <div class="tab-pane fade" id="activity" role="tabpanel" aria-labelledby="activity-tab">
+                            <ul class="timeline">
+                                <li class="timeline-item" data-aos="fade-up">
+                                    <div class="timeline-marker bg-success"></div>
+                                    <div class="timeline-content">
+                                        <h6>Pendaftaran Selesai</h6>
+                                        <p class="text-muted">Semua berkas telah berhasil diunggah dan diverifikasi.</p>
+                                        <small class="text-muted">{{ "now"|date:"d M Y, H:i" }}</small>
+                                    </div>
+                                </li>
+                                <li class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                                    <div class="timeline-marker bg-primary"></div>
+                                    <div class="timeline-content">
+                                        <h6>Berkas Diperbarui</h6>
+                                        <p class="text-muted">Anda mengunggah ulang dokumen Ijazah.</p>
+                                        <small class="text-muted">2 hari yang lalu</small>
+                                    </div>
+                                </li>
+                                <li class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                                    <div class="timeline-marker bg-info"></div>
+                                    <div class="timeline-content">
+                                        <h6>Profil Diedit</h6>
+                                        <p class="text-muted">Informasi alamat telah diperbarui.</p>
+                                        <small class="text-muted">5 hari yang lalu</small>
+                                    </div>
+                                </li>
+                                <li class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                                    <div class="timeline-marker bg-warning"></div>
+                                    <div class="timeline-content">
+                                        <h6>Akun Dibuat</h6>
+                                        <p class="text-muted">Selamat datang! Akun Anda telah berhasil dibuat.</p>
+                                        <small class="text-muted">{{ user.date_joined|date:"d M Y, H:i" }}</small>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="profileEditModal" tabindex="-1" aria-labelledby="profileEditModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="profileEditModalLabel">
+                    <i class="bi bi-pencil-square me-2"></i>Edit Profil
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editProfileForm">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editNama" class="form-label">Nama Lengkap</label>
+                            <input type="text" class="form-control" id="editNama" value="{{ biodata.nama_lengkap|default:'' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editEmail" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="editEmail" value="{{ user.email|default:'' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editNik" class="form-label">NIK</label>
+                            <input type="text" class="form-control" id="editNik" value="{{ biodata.nik|default:'' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editNomorKK" class="form-label">Nomor KK</label>
+                            <input type="text" class="form-control" id="editNomorKK" value="{{ biodata.nomor_kk|default:'' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editTempatLahir" class="form-label">Tempat Lahir</label>
+                            <input type="text" class="form-control" id="editTempatLahir" value="{{ biodata.tempat_lahir|default:'' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editTanggalLahir" class="form-label">Tanggal Lahir</label>
+                            <input type="date" class="form-control" id="editTanggalLahir" value="{{ biodata.tanggal_lahir|date:'Y-m-d'|default:'' }}">
+                        </div>
+                        <div class="col-12 mb-3">
+                            <label for="editJalan" class="form-label">Alamat</label>
+                            <input type="text" class="form-control" id="editJalan" value="{{ biodata.jalan|default:'' }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="editKecamatan" class="form-label">Kecamatan</label>
+                            <input type="text" class="form-control" id="editKecamatan" value="{{ biodata.kecamatan|default:'' }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="editKabupaten" class="form-label">Kabupaten</label>
+                            <input type="text" class="form-control" id="editKabupaten" value="{{ biodata.kabupaten|default:'' }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="editProvinsi" class="form-label">Provinsi</label>
+                            <input type="text" class="form-control" id="editProvinsi" value="{{ biodata.provinsi|default:'' }}">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                <button type="button" class="btn btn-primary-custom" id="saveProfileBtn">
+                    <i class="bi bi-check-circle me-2"></i>Simpan Perubahan
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize AOS
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+    
+    // Save Profile Button (Simulated)
+    const saveProfileBtn = document.getElementById('saveProfileBtn');
+    saveProfileBtn.addEventListener('click', function() {
+        // Disable button and show loading state
+        this.disabled = true;
+        this.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Menyimpan...';
+        
+        // Simulate API call
+        setTimeout(() => {
+            // Re-enable button and reset text
+            this.disabled = false;
+            this.innerHTML = '<i class="bi bi-check-circle me-2"></i>Simpan Perubahan';
+            
+            // Close modal
+            const modal = bootstrap.Modal.getInstance(document.getElementById('profileEditModal'));
+            modal.hide();
+            
+            // Show success toast (you can implement a toast notification here)
+            alert('Profil berhasil diperbarui!');
+            
+            // In a real application, you would reload the page or update the DOM with the new data
+            // location.reload();
+        }, 1500);
+    });
+});
+</script>
+
+<style>
+/* Profile Header Styles */
+.profile-header {
+    position: relative;
+    padding: 60px 0 30px;
+    margin-bottom: -50px;
+    overflow: hidden;
+}
+
+.profile-header-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    z-index: -1;
+}
+
+.profile-header-bg::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.profile-avatar-container {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-avatar {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+}
+
+.avatar-status-indicator {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background-color: #10b981;
+    border: 4px solid white;
+    border-radius: 50%;
+}
+
+.profile-name {
+    color: white;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.profile-status {
+    margin-bottom: 15px;
+}
+
+.profile-meta {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.meta-item {
+    margin-right: 20px;
+}
+
+.profile-actions .btn {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Stat Cards */
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+    height: 100%;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 20px;
+    flex-shrink: 0;
+}
+
+.stat-icon i {
+    font-size: 1.5rem;
+    color: white;
+}
+
+.stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-bottom: 0;
+}
+
+.stat-label {
+    color: #6c757d;
+    margin-bottom: 0;
+}
+
+/* Profile Table */
+.table-profile {
+    margin-bottom: 0;
+}
+
+.table-label {
+    font-weight: 600;
+    color: #495057;
+    width: 40%;
+}
+
+.table-value {
+    color: #6c757d;
+}
+
+/* Timeline */
+.timeline {
+    position: relative;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.timeline::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 10px;
+    height: 100%;
+    width: 2px;
+    background: #e9ecef;
+}
+
+.timeline-item {
+    margin-bottom: 30px;
+    padding-left: 40px;
+    position: relative;
+}
+
+.timeline-marker {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 3px solid white;
+    box-shadow: 0 0 0 3px #e9ecef;
+}
+
+.timeline-content h6 {
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+.timeline-content p {
+    margin-bottom: 5px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-name {
+        font-size: 1.8rem;
+    }
+    
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+    }
+    
+    .meta-item {
+        display: block;
+        margin-bottom: 5px;
+    }
+    
+    .table-label {
+        width: 50%;
+    }
+}
+</style>
+{% endblock %}

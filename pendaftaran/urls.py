@@ -11,4 +11,5 @@ urlpatterns = [
     path('berkas/', views.upload_berkas, name='upload_berkas'),
     path('sukses/', views.sukses_upload, name='sukses_upload'),
     path('ubahberkas/', views.ubah_berkas, name='ubah_berkas'),
+    path('profile/', views.profile, name='profile'),
 ]

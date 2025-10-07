@@ -136,11 +136,11 @@
                                 <th>Aksi</th>
                                 <td>
                                 {% if biodata.status == 'menunggu' %}
-                                    <div class="btn btn-warning">{{ biodata.status }}</div>
+                                    <div class="btn btn-warning">{{ biodata.get_status_display }}</div>
                                 {% elif  biodata.status == 'lulus'%}
-                                    <div class="btn btn-success">{{ biodata.status }}</div>
+                                    <div class="btn btn-success">{{ biodata.get_status_display }}</div>
                                 {% else %}
-                                    <div class="btn btn-danger">{{ biodata.status }}</div>
+                                    <div class="btn btn-danger">{{ biodata.get_status_display  }}</div>
                                 {% endif %}
                                 </td>
                             </tr>

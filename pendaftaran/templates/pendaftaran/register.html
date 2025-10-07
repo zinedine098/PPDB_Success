@@ -37,6 +37,9 @@
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
+        .error-container {
+            margin-top: 0.25rem;
+        }
     </style>
 </head>
 <body class="bg-light">
@@ -60,10 +63,24 @@
                     {% endfor %}
                 {% endif %}
 
+                <!-- Error Summary Section -->
+                {% if user_form.non_field_errors or biodata_form.non_field_errors %}
+                    <div class="alert alert-danger">
+                        <h5 class="alert-heading">Kesalahan Ditemukan:</h5>
+                        <ul class="mb-0">
+                            {% for error in user_form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                            {% for error in biodata_form.non_field_errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+
                 <form method="post" class="needs-validation" novalidate>
                     {% csrf_token %}
-
-                    <!-- Section Akun -->
+                    <!-- Section Akun  -->
                     <div class="form-section">
                         <h3 class="form-title">
                             <i class="bi bi-person-circle me-2"></i>Informasi Akun
@@ -74,17 +91,22 @@
                                 {{ user_form.username.label_tag }}
                                 {{ user_form.username }}
                                 {% if user_form.username.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ user_form.username.errors.0 }}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in user_form.username.errors %}
+                                            {{ error }}
+                                        {% endfor %}
                                     </div>
                                 {% endif %}
                             </div>
+                            
                             <div class="col-md-6 mb-3 required">
                                 {{ user_form.email.label_tag }}
                                 {{ user_form.email }}
                                 {% if user_form.email.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ user_form.email.errors.0 }}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in user_form.email.errors %}
+                                            {{ error }}
+                                        {% endfor %}
                                     </div>
                                 {% endif %}
                             </div>
@@ -95,8 +117,10 @@
                                 {{ user_form.password1.label_tag }}
                                 {{ user_form.password1 }}
                                 {% if user_form.password1.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ user_form.password1.errors.0 }}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in user_form.password1.errors %}
+                                            {{ error }}
+                                        {% endfor %}
                                     </div>
                                 {% endif %}
                                 <small class="form-text text-muted">
@@ -107,8 +131,10 @@
                                 {{ user_form.password2.label_tag }}
                                 {{ user_form.password2 }}
                                 {% if user_form.password2.errors %}
-                                    <div class="invalid-feedback d-block">
-                                        {{ user_form.password2.errors.0 }}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in user_form.password2.errors %}
+                                            {{ error }}
+                                        {% endfor %}
                                     </div>
                                 {% endif %}
                             </div>
@@ -125,10 +151,24 @@
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.nama_lengkap.label_tag }}
                                 {{ biodata_form.nama_lengkap }}
+                                {% if biodata_form.nama_lengkap.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.nama_lengkap.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.jenis_kelamin.label_tag }}
                                 {{ biodata_form.jenis_kelamin }}
+                                {% if biodata_form.jenis_kelamin.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.jenis_kelamin.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -136,10 +176,24 @@
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.nik.label_tag }}
                                 {{ biodata_form.nik }}
+                                {% if biodata_form.nik.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.nik.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.nomor_kk.label_tag }}
                                 {{ biodata_form.nomor_kk }}
+                                {% if biodata_form.nomor_kk.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.nomor_kk.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -147,10 +201,24 @@
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.tempat_lahir.label_tag }}
                                 {{ biodata_form.tempat_lahir }}
+                                {% if biodata_form.tempat_lahir.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.tempat_lahir.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.tanggal_lahir.label_tag }}
                                 {{ biodata_form.tanggal_lahir }}
+                                {% if biodata_form.tanggal_lahir.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.tanggal_lahir.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -158,10 +226,24 @@
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.kewarganegaraan.label_tag }}
                                 {{ biodata_form.kewarganegaraan }}
+                                {% if biodata_form.kewarganegaraan.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.kewarganegaraan.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 mb-3">
                                 {{ biodata_form.anak_ke.label_tag }}
                                 {{ biodata_form.anak_ke }}
+                                {% if biodata_form.anak_ke.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.anak_ke.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -169,6 +251,13 @@
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.pendidikan_terakhir.label_tag }}
                                 {{ biodata_form.pendidikan_terakhir }}
+                                {% if biodata_form.pendidikan_terakhir.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.pendidikan_terakhir.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -183,10 +272,24 @@
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.negara.label_tag }}
                                 {{ biodata_form.negara }}
+                                {% if biodata_form.negara.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.negara.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.provinsi.label_tag }}
                                 {{ biodata_form.provinsi }}
+                                {% if biodata_form.provinsi.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.provinsi.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -194,10 +297,24 @@
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.kabupaten.label_tag }}
                                 {{ biodata_form.kabupaten }}
+                                {% if biodata_form.kabupaten.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.kabupaten.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-6 mb-3 required">
                                 {{ biodata_form.kecamatan.label_tag }}
                                 {{ biodata_form.kecamatan }}
+                                {% if biodata_form.kecamatan.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.kecamatan.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -205,10 +322,24 @@
                             <div class="col-md-8 mb-3 required">
                                 {{ biodata_form.jalan.label_tag }}
                                 {{ biodata_form.jalan }}
+                                {% if biodata_form.jalan.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.jalan.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-4 mb-3 required">
                                 {{ biodata_form.kode_pos.label_tag }}
                                 {{ biodata_form.kode_pos }}
+                                {% if biodata_form.kode_pos.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.kode_pos.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -223,10 +354,24 @@
                             <div class="col-md-8 mb-3 required">
                                 {{ biodata_form.jurusan.label_tag }}
                                 {{ biodata_form.jurusan }}
+                                {% if biodata_form.jurusan.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.jurusan.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                             <div class="col-md-4 mb-3 required">
                                 {{ biodata_form.ukuran_seragam.label_tag }}
                                 {{ biodata_form.ukuran_seragam }}
+                                {% if biodata_form.ukuran_seragam.errors %}
+                                    <div class="invalid-feedback d-block error-container">
+                                        {% for error in biodata_form.ukuran_seragam.errors %}
+                                            {{ error }}
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -235,7 +380,7 @@
                         <button type="submit" class="btn btn-primary btn-lg btn-register">
                             <i class="bi bi-send-check me-2"></i>Daftar Sekarang
                         </button>
-                        <a href="/" class="btn btn-primary btn-lg btn-register">Kembali</a>
+                        <a href="/" class="btn btn-secondary btn-lg">Kembali</a>
                         <p class="text-muted mt-3">
                             Sudah punya akun? <a href="{% url 'login' %}" class="text-decoration-none">Login di sini</a>
                         </p>
@@ -264,6 +409,19 @@
                     }, false)
                 })
         })()
+        
+        // Fungsi untuk menambahkan styling pada field yang memiliki error
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cari semua field yang memiliki error
+            const errorFields = document.querySelectorAll('.invalid-feedback.d-block');
+            errorFields.forEach(function(errorElement) {
+                // Temukan input field terkait
+                const inputField = errorElement.previousElementSibling;
+                if (inputField) {
+                    inputField.classList.add('is-invalid');
+                }
+            });
+        });
     </script>
 </body>
 </html>
